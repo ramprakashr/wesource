@@ -6,14 +6,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity 
-@Table(name = "adm_publisher") 
+@Table(name = "ws_publisher") 
 public class Publisher {
 	
 	@Id 
-	@GeneratedValue(strategy = GenerationType.AUTO) 
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private int adm_publisher_id;
 	
 	private String adm_publisher_name;
@@ -34,8 +36,12 @@ public class Publisher {
 	
 	private String adm_publisher_city;
 	
+	@OneToOne
+	@JoinColumn(name = "adm_publisher_state", referencedColumnName = "ws_state_id")
 	private State adm_publisher_state;
 	
+	@OneToOne
+	@JoinColumn(name = "adm_publisher_country", referencedColumnName = "ws_country_id")
 	private Country adm_publisher_country;
 	
 	private int adm_publisher_postcode;

@@ -1,16 +1,20 @@
 package com.wesource.we_source_api.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.wesource.we_source_api.model.Publisher;
 import com.wesource.we_source_api.repository.PublisherRepository;
+
+import jakarta.websocket.server.PathParam;
 
 @Controller
 @RequestMapping(value = "/publisher")
@@ -29,6 +33,16 @@ public class PublisherController {
 	@RequestMapping(method = RequestMethod.GET, value = "/all")
 	public ResponseEntity<List <Publisher>> getAllPubisher() {
 		return (ResponseEntity<List<Publisher>>) ResponseEntity.ok(publisherRepository.findAll());
+	}
+	
+	@RequestMapping(method = RequestMethod.PUT, value = "/{id}")
+	public void updatePublisher(@PathVariable(value = "id") Integer id, @RequestBody Publisher publisher) {
+		
+		Optional<Publisher> savedPublisher = publisherRepository.findById(id);
+		savedPublisher.get().setAdm_publisher_dob(publisher.getAdm_publisher_dob());
+		
+		publisherRepository.save(savedPublisher.get());
+		
 	}
 
 }

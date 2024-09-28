@@ -2,6 +2,8 @@ package com.wesource.we_source_api.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +18,7 @@ public class Publisher {
 	
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
-	private int adm_publisher_id;
+	private Integer adm_publisher_id;
 	
 	private String adm_publisher_name;
 	
@@ -46,6 +48,7 @@ public class Publisher {
 	
 	private int adm_publisher_postcode;
 	
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date adm_publisher_dob;
 	
 	private int adm_publisher_created_by;

@@ -33,6 +33,11 @@ public class PublisherController {
 		return (ResponseEntity<List<Publisher>>) ResponseEntity.ok(publisherRepository.findAll());
 	}
 	
+	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
+	public ResponseEntity<Optional<Publisher>> getPubisherById(@PathVariable(value = "id") Integer id) {
+		return (ResponseEntity<Optional<Publisher>>) ResponseEntity.ok(publisherRepository.findById(id));
+	}
+	
 	@RequestMapping(method = RequestMethod.PUT, value = "/{id}")
 	public void updatePublisher(@PathVariable(value = "id") Integer id, @RequestBody Publisher publisher) {
 		

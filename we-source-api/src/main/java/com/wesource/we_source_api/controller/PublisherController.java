@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.wesource.we_source_api.model.Publisher;
 import com.wesource.we_source_api.repository.PublisherRepository;
 
-import jakarta.websocket.server.PathParam;
-
 @Controller
 @RequestMapping(value = "/publisher")
 public class PublisherController {
@@ -26,7 +24,7 @@ public class PublisherController {
 	@RequestMapping(method = RequestMethod.POST, value = "/save")
 	public void savePublisher(@RequestBody Publisher publisher)
 	{
-		//TODO Save has started to work now... But need to change the 404 response on success save
+		//TODO Save has started to work now... But need to change the 404 response on success save and return new ID
 		publisherRepository.save(publisher);
 	}
 	
@@ -40,8 +38,16 @@ public class PublisherController {
 		
 		Optional<Publisher> savedPublisher = publisherRepository.findById(id);
 		savedPublisher.get().setAdm_publisher_dob(publisher.getAdm_publisher_dob());
-		
+		//TODO Update worked, need to add the fields for all, Also success response now its sending as 404 which is not advised.
 		publisherRepository.save(savedPublisher.get());
+		
+	}
+	
+	@RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
+	public void deletePublisher(@PathVariable(value = "id") Integer id) {
+		
+		//TODO return success code with success message
+		publisherRepository.deleteById(id);
 		
 	}
 

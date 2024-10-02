@@ -13,19 +13,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.wesource.we_source_api.model.Publisher;
 import com.wesource.we_source_api.repository.PublisherRepository;
+import com.wesource.we_source_api.service.PublisherService;
 
 @Controller
 @RequestMapping(value = "/publisher")
 public class PublisherController {
 	
+	//TODO PublisherService has been introduce gradually eliminate the repo usage in ctrlr
 	@Autowired
 	private PublisherRepository publisherRepository;
+	
+	@Autowired
+	private PublisherService publisherService;
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/save")
 	public void savePublisher(@RequestBody Publisher publisher)
 	{
 		//TODO Save has started to work now... But need to change the 404 response on success save and return new ID
-		publisherRepository.save(publisher);
+		publisherService.saveNewPublisher(publisher);
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/all")
@@ -35,6 +40,7 @@ public class PublisherController {
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
 	public ResponseEntity<Optional<Publisher>> getPubisherById(@PathVariable(value = "id") Integer id) {
+		//TODO return empty obj instead of null or 404 with user not found message
 		return (ResponseEntity<Optional<Publisher>>) ResponseEntity.ok(publisherRepository.findById(id));
 	}
 	

@@ -24,7 +24,7 @@ public class Publisher {
 	
 	private String adm_publisher_email;
 	
-	private int adm_publisher_mobile;
+	private Integer adm_publisher_mobile;
 	
 	private char adm_publisher_gender;
 	

@@ -42,9 +42,18 @@ public class SeekerController {
 		return (ResponseEntity <Optional <Seeker>>) ResponseEntity.ok(seekerRepository.findById(seekerId));
 	}
 	
+	@RequestMapping(method = RequestMethod.PUT, value = "/{id}")
+	public void updateSeeker(@RequestBody Seeker seeker, @PathVariable Integer id) {
+		Optional<Seeker> savedSeeker = seekerRepository.findById(id);
+		//TODO need to add the fields for all, Also success response now its sending as 404 which is not advised.
+		savedSeeker.get().setApl_seeker_name(seeker.getApl_seeker_name());
+		seekerRepository.save(savedSeeker.get());
+	}
 	
-	
-	
-	
+	@RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
+	public void deleteSeekerById(@PathVariable(value = "id") Integer seekerId) {
+		//TODO return success code with success message
+		seekerRepository.deleteById(seekerId);
+	}
 
 }

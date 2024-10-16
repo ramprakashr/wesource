@@ -1,9 +1,13 @@
 package com.wesource.we_source_api.controller;
 
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,8 +33,18 @@ public class SeekerController {
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/save")
 	public void createSeeker(@RequestBody Seeker seeker) {
+		//TODO need to change the 404 response on success save and return new ID
 		seekerRepository.save(seeker);
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
+	public ResponseEntity <Optional <Seeker>> getSeekerById(@PathVariable(value = "id") Integer seekerId) {
+		return (ResponseEntity <Optional <Seeker>>) ResponseEntity.ok(seekerRepository.findById(seekerId));
+	}
+	
+	
+	
+	
 	
 
 }

@@ -36,11 +36,11 @@ public class Seeker {
 	private String apl_seeker_city;
 	
 	@OneToOne
-	@JoinColumn(name = "adm_publisher_state", referencedColumnName = "ws_state_id")
+	@JoinColumn(name = "apl_seeker_state", referencedColumnName = "ws_state_id")
 	private State apl_seeker_state;
 	
 	@OneToOne
-	@JoinColumn(name = "adm_publisher_country", referencedColumnName = "ws_country_id")
+	@JoinColumn(name = "apl_seeker_country", referencedColumnName = "ws_country_id")
 	private Country apl_seeker_country;
 	
 	private Integer apl_seeker_postcode;

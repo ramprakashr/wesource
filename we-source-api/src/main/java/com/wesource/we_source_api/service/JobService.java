@@ -26,6 +26,7 @@ public class JobService {
 	public Job createNewJob(Job newJob) {
 		newJob.setWs_job_created_date(new Date());
 		newJob.setWs_job_last_updated_date(new Date());
+		newJob.setWs_job_is_wfh('Y');
 		return	jobRepository.save(newJob);
 	}
 	
@@ -36,8 +37,10 @@ public class JobService {
 		
 		if (Optional.of(publisher).isEmpty()) {
 			errorsInJobCreation.add(WeSourceErrors.WE_SOURCE_ERROR_NOT_PUBLISHER);
+		} else {
+			job.setWs_job_created_by(publisher.getAdm_publisher_id());
 		}
-		if (Optional.of(job.getWs_job_status()).isPresent()) {
+		if (Optional.ofNullable(job.getWs_job_status()).isPresent()) {
 			errorsInJobCreation.add(WeSourceErrors.WE_SOURCE_ERROR_NO_STATUS_ALLOWED);
 		}
 		

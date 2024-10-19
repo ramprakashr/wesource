@@ -23,6 +23,8 @@ public class JobController {
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/save")
 	public ResponseEntity<List<String>> createNewJob(@RequestBody Job job) {
+		
+		//Cannot deserialize value of type `java.lang.Integer` from Object value (token `JsonToken.START_OBJECT`)
 		List<String> jobCreationResponse =  jobService.validateJob(job);
 		
 		if(jobCreationResponse.isEmpty()) {

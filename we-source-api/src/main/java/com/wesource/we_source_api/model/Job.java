@@ -44,11 +44,13 @@ public class Job {
 	
 	private Float ws_job_final_fees;
 	
-	private Integer ws_job_fee_interval;
+	@OneToOne
+	@JoinColumn(name = "ws_job_fee_interval", referencedColumnName = "ws_job_fee_interval_id")
+	private JobFeeInterval ws_job_fee_interval;
 	
 	private String ws_job_description;
 	
-	private char ws_job_is_wfh;
+	private int ws_job_is_wfh;
 	
 	private Integer ws_job_created_by;
 	
@@ -113,10 +115,10 @@ public class Job {
 	public void setWs_job_final_fees(Float ws_job_final_fees) {
 		this.ws_job_final_fees = ws_job_final_fees;
 	}
-	public Integer getWs_job_fee_interval() {
+	public JobFeeInterval getWs_job_fee_interval() {
 		return ws_job_fee_interval;
 	}
-	public void setWs_job_fee_interval(Integer ws_job_fee_interval) {
+	public void setWs_job_fee_interval(JobFeeInterval ws_job_fee_interval) {
 		this.ws_job_fee_interval = ws_job_fee_interval;
 	}
 	public String getWs_job_description() {
@@ -125,10 +127,10 @@ public class Job {
 	public void setWs_job_description(String ws_job_description) {
 		this.ws_job_description = ws_job_description;
 	}
-	public char getWs_job_is_wfh() {
+	public int getWs_job_is_wfh() {
 		return ws_job_is_wfh;
 	}
-	public void setWs_job_is_wfh(char ws_job_is_wfh) {
+	public void setWs_job_is_wfh(int ws_job_is_wfh) {
 		this.ws_job_is_wfh = ws_job_is_wfh;
 	}
 	public Integer getWs_job_created_by() {

@@ -2,10 +2,14 @@ package com.wesource.we_source_api.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity 
@@ -17,19 +21,42 @@ public class Job {
 	private Integer ws_job_id;
 	
 	private String ws_job_title;
+	
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date ws_job_from_date;
+	
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date ws_job_to_date;
+	
+	@OneToOne
+	@JoinColumn(name = "ws_job_period", referencedColumnName = "ws_job_period_id")
 	private JobPeriod ws_job_period;
+	
+	@OneToOne
+	@JoinColumn(name = "ws_job_category", referencedColumnName = "ws_job_category_id")
 	private JobCategory ws_job_category;
+	
+	@OneToOne
+	@JoinColumn(name = "ws_job_status", referencedColumnName = "ws_job_status_id")
 	private JobStatus ws_job_status;
+	
 	private Float ws_job_proposed_fees;
+	
 	private Float ws_job_final_fees;
+	
 	private Integer ws_job_fee_interval;
+	
 	private String ws_job_description;
+	
 	private char ws_job_is_wfh;
+	
 	private Integer ws_job_created_by;
+	
+	@JsonFormat(pattern="dd/MM/yyyy@HH:mm:ss")
 	private Date ws_job_created_date;
+	
 	private Integer ws_job_last_updated_by;
+	
 	private Date ws_job_last_updated_date;
 	
 	public Integer getWs_job_id() {

@@ -30,6 +30,10 @@ public class JobService {
 		return	jobRepository.save(newJob);
 	}
 	
+	public List<Job> getJobByCreatedByPublisher(Integer publisherId) {
+		return jobRepository.findJobByCreatedById(publisherId);
+	}
+	
 	public List<String> validateJob(Job job) {
 		
 		Publisher publisher = publisherRepository.findById(job.getWs_job_created_by()).get();

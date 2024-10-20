@@ -1,7 +1,6 @@
 package com.wesource.we_source_api.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +23,6 @@ public class JobController {
 	@RequestMapping(method = RequestMethod.POST, value = "/save")
 	public ResponseEntity<List<String>> createNewJob(@RequestBody Job job) {
 		
-		//Cannot deserialize value of type `java.lang.Integer` from Object value (token `JsonToken.START_OBJECT`)
 		List<String> jobCreationResponse =  jobService.validateJob(job);
 		
 		if(jobCreationResponse.isEmpty()) {
@@ -35,7 +33,13 @@ public class JobController {
 			ResponseEntity.badRequest();
 			return (ResponseEntity<List<String>>) jobCreationResponse;
 		}
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value="/publisher/{publisherId}")
+	public ResponseEntity<List<Job>> getJobByPublisherId(@PathVariable Integer publisherId) {
 		
+		List<Job> job = jobService.getJobByCreatedByPublisher(publisherId);
+		return ResponseEntity.ok(job);
 	}
 
 }

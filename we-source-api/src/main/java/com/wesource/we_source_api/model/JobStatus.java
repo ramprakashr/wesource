@@ -10,6 +10,15 @@ import jakarta.persistence.Table;
 @Table(name = "ws_job_status") 
 public class JobStatus {
 	
+	//Default constructor for JPA to resolve the object
+	public JobStatus() {
+		super();
+	}
+
+	public JobStatus(int ws_job_status_id) {
+		this.ws_job_status_id = ws_job_status_id;
+	}
+	
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO) 
 	private int ws_job_status_id;

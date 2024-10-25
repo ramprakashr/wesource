@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wesource.we_source_api.model.Job;
+import com.wesource.we_source_api.model.JobStatus;
 import com.wesource.we_source_api.model.Publisher;
 import com.wesource.we_source_api.repository.JobRepository;
 import com.wesource.we_source_api.repository.PublisherRepository;
@@ -27,6 +28,8 @@ public class JobService {
 		newJob.setWs_job_created_date(new Date());
 		newJob.setWs_job_last_updated_date(new Date());
 		newJob.setWs_job_is_wfh('Y');
+		//New Job will always be a DRAFT
+		newJob.setWs_job_status(new JobStatus(6));
 		return	jobRepository.save(newJob);
 	}
 	

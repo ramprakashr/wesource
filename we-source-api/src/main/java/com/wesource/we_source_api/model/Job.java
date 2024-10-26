@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -36,7 +37,7 @@ public class Job {
 	@JoinColumn(name = "ws_job_category", referencedColumnName = "ws_job_category_id")
 	private JobCategory ws_job_category;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ws_job_status", referencedColumnName = "ws_job_status_id")
 	private JobStatus ws_job_status;
 	

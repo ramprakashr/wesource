@@ -23,7 +23,7 @@ public class JobController {
 	@RequestMapping(method = RequestMethod.POST, value = "/save")
 	public ResponseEntity<List<String>> createNewJob(@RequestBody Job job) {
 		
-		List<String> jobCreationResponse =  jobService.validateJob(job);
+		List<String> jobCreationResponse =  jobService.validateNewJob(job);
 		
 		if(jobCreationResponse.isEmpty()) {
 			 jobService.createNewJob(job);
@@ -40,6 +40,23 @@ public class JobController {
 		
 		List<Job> job = jobService.getJobByCreatedByPublisher(publisherId);
 		return ResponseEntity.ok(job);
+	}
+	
+	@RequestMapping(method = RequestMethod.PUT, value = "/{jobId}/publish/{publisherId}")
+	public ResponseEntity<List<String>> publishJob(@PathVariable Integer jobId, @PathVariable Integer publisherId) {
+		
+		Job job = jobService.getJobBuJobId(jobId);
+		
+		List<String> jobPublishResponse =  jobService.validateJobPublish(job, publisherId);
+		
+		if(jobPublishResponse.isEmpty()) {
+			 jobService.publishJob(job);
+			 jobPublishResponse.add("Job published successfully");
+			 return ResponseEntity.ok(jobPublishResponse);
+		} else {
+			ResponseEntity.badRequest();
+			return (ResponseEntity<List<String>>) jobPublishResponse;
+		}
 	}
 
 }

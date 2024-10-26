@@ -13,6 +13,7 @@ import com.wesource.we_source_api.model.JobStatus;
 import com.wesource.we_source_api.model.Publisher;
 import com.wesource.we_source_api.repository.JobRepository;
 import com.wesource.we_source_api.repository.PublisherRepository;
+import com.wesource.we_source_api.type.JobType;
 import com.wesource.we_source_api.util.WeSourceErrors;
 
 @Service
@@ -29,7 +30,7 @@ public class JobService {
 		newJob.setWs_job_last_updated_date(new Date());
 		newJob.setWs_job_is_wfh('Y');
 		//New Job will always be a DRAFT
-		newJob.setWs_job_status(new JobStatus(6));
+		newJob.setWs_job_status(new JobStatus(JobType.DRAFT.ordinal()));
 		return	jobRepository.save(newJob);
 	}
 	
@@ -37,9 +38,22 @@ public class JobService {
 		return jobRepository.findJobByCreatedById(publisherId);
 	}
 	
-	public List<String> validateJob(Job job) {
+	public Job getJobBuJobId(Integer jobId) {
+		return jobRepository.findById(jobId).get();
+	}
+	
+	public void publishJob(Job publishJob) {
+		publishJob.setWs_job_status(new JobStatus(JobType.NEW.ordinal()));
+		this.updateJob(publishJob);
+	}
+	
+	public void updateJob(Job job) {
+		jobRepository.save(job);
+	}
+	
+	public List<String> validateNewJob(Job job) {
 		
-		Publisher publisher = publisherRepository.findById(job.getWs_job_created_by()).get();
+		Publisher publisher = this.getPublisherById(job.getWs_job_created_by());
 		List<String> errorsInJobCreation = new ArrayList<String>();
 		
 		if (Optional.of(publisher).isEmpty()) {
@@ -50,7 +64,31 @@ public class JobService {
 		if (Optional.ofNullable(job.getWs_job_status()).isPresent()) {
 			errorsInJobCreation.add(WeSourceErrors.WE_SOURCE_ERROR_NO_STATUS_ALLOWED);
 		}
+		//TODO Check If all the mandatory fields are passed while new saving.
 		
 		return errorsInJobCreation;
 	}
+
+	public List<String> validateJobPublish(Job job, Integer publisherId) {
+		
+		Publisher publisher = this.getPublisherById(publisherId);
+		List<String> errorsInJobPublish = new ArrayList<String>();
+		
+		if (Optional.of(publisher).isEmpty()) {
+			errorsInJobPublish.add(WeSourceErrors.WE_SOURCE_ERROR_NOT_PUBLISHER);
+		}
+		
+		
+		if (job.getWs_job_status().getWs_job_status_title().equalsIgnoreCase(JobType.NEW.name())) {
+			errorsInJobPublish.add(WeSourceErrors.WE_SOURCE_ERROR_JOB_PUBLISH_AS_NOT_NEW);
+		}
+		//TODO Check if all the necessary fields of the job are fully covered or filled ?? 
+		
+		return errorsInJobPublish;
+	}
+	
+	private Publisher getPublisherById(Integer publisherId) {
+		return publisherRepository.findById(publisherId).get();
+	}
+
 }

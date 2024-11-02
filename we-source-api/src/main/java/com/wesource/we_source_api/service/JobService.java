@@ -30,7 +30,7 @@ public class JobService {
 		newJob.setWs_job_last_updated_date(new Date());
 		newJob.setWs_job_is_wfh('Y');
 		//New Job will always be a DRAFT
-		newJob.setWs_job_status(new JobStatus(JobType.DRAFT.ordinal()));
+		//newJob.setWs_job_status(new JobStatus(JobType.DRAFT.ordinal()));
 		return	jobRepository.save(newJob);
 	}
 	
@@ -43,7 +43,7 @@ public class JobService {
 	}
 	
 	public void publishJob(Job publishJob) {
-		publishJob.setWs_job_status(new JobStatus(JobType.NEW.ordinal()));
+		publishJob.setWs_job_status(new JobStatus(JobType.NEW.getValue()));
 		this.updateJob(publishJob);
 	}
 	
@@ -51,17 +51,17 @@ public class JobService {
 		jobRepository.save(job);
 	}
 	
-	public List<String> validateNewJob(Job job) {
+	public List<String> validateNewJob(Job newJob) {
 		
-		Publisher publisher = this.getPublisherById(job.getWs_job_created_by());
+		Publisher publisher = this.getPublisherById(newJob.getWs_job_created_by());
 		List<String> errorsInJobCreation = new ArrayList<String>();
 		
 		if (Optional.of(publisher).isEmpty()) {
 			errorsInJobCreation.add(WeSourceErrors.WE_SOURCE_ERROR_NOT_PUBLISHER);
 		} else {
-			job.setWs_job_created_by(publisher.getAdm_publisher_id());
+			newJob.setWs_job_created_by(publisher.getAdm_publisher_id());
 		}
-		if (Optional.ofNullable(job.getWs_job_status()).isPresent()) {
+		if (newJob.getWs_job_status().getWs_job_status_id() != JobType.DRAFT.getValue()) {
 			errorsInJobCreation.add(WeSourceErrors.WE_SOURCE_ERROR_NO_STATUS_ALLOWED);
 		}
 		//TODO Check If all the mandatory fields are passed while new saving.
@@ -79,8 +79,8 @@ public class JobService {
 		}
 		
 		
-		if (job.getWs_job_status().getWs_job_status_title().equalsIgnoreCase(JobType.NEW.name())) {
-			errorsInJobPublish.add(WeSourceErrors.WE_SOURCE_ERROR_JOB_PUBLISH_AS_NOT_NEW);
+		if (!job.getWs_job_status().getWs_job_status_title().equalsIgnoreCase(JobType.DRAFT.name())) {
+			errorsInJobPublish.add(WeSourceErrors.WE_SOURCE_ERROR_JOB_PUBLISH_AS_DRAFT);
 		}
 		//TODO Check if all the necessary fields of the job are fully covered or filled ?? 
 		

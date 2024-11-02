@@ -9,8 +9,15 @@ public enum JobType {
 	COMPLETE(5),
 	DRAFT(6),
 	CANCEL(7);
+	
+	private Integer value;
 
-	JobType(Integer i) {
+	JobType(Integer value) {
+		this.value = value;
+	}
+	
+	public Integer getValue() {
+		return this.value;
 	}
 	
 }

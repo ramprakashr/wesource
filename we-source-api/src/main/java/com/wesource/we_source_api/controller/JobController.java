@@ -30,8 +30,7 @@ public class JobController {
 			 jobCreationResponse.add("Job created successfully");
 			 return ResponseEntity.ok(jobCreationResponse);
 		} else {
-			ResponseEntity.badRequest();
-			return (ResponseEntity<List<String>>) jobCreationResponse;
+			return ResponseEntity.badRequest().body(jobCreationResponse);
 		}
 	}
 	
@@ -55,7 +54,7 @@ public class JobController {
 			 return ResponseEntity.ok(jobPublishResponse);
 		} else {
 			ResponseEntity.badRequest();
-			return (ResponseEntity<List<String>>) jobPublishResponse;
+			return ResponseEntity.badRequest().body(jobPublishResponse);
 		}
 	}
 

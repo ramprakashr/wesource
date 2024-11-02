@@ -37,8 +37,8 @@ public class Job {
 	@JoinColumn(name = "ws_job_category", referencedColumnName = "ws_job_category_id")
 	private JobCategory ws_job_category;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "ws_job_status", referencedColumnName = "ws_job_status_id")
+	@OneToOne
+	@JoinColumn(name = "ws_job_status", referencedColumnName = "ws_job_status_id", updatable = false, insertable = false)
 	private JobStatus ws_job_status;
 	
 	private Float ws_job_proposed_fees;

@@ -38,7 +38,7 @@ public class Job {
 	private JobCategory ws_job_category;
 	
 	@OneToOne
-	@JoinColumn(name = "ws_job_status", referencedColumnName = "ws_job_status_id", updatable = false, insertable = false)
+	@JoinColumn(name = "ws_job_status", referencedColumnName = "ws_job_status_id")
 	private JobStatus ws_job_status;
 	
 	private Float ws_job_proposed_fees;

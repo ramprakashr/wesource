@@ -51,6 +51,11 @@ public class JobService {
 		jobRepository.save(job);
 	}
 	
+	public List<Job> getNewJobForSeeker(Integer jobPeriod, Integer jobCategory, Integer jobInterval, String isWorkFromHome) {
+		int isWFH = Optional.of(isWorkFromHome).isPresent() && isWorkFromHome.equalsIgnoreCase("Y") ? 1 : 0;
+		return jobRepository.fetchJobForSeeker(JobType.NEW.getValue(), jobPeriod, jobCategory, jobInterval, isWFH);
+	}
+	
 	public List<String> validateNewJob(Job newJob) {
 		
 		Publisher publisher = this.getPublisherById(newJob.getWs_job_created_by());

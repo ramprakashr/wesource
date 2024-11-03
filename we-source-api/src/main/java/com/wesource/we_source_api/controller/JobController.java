@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wesource.we_source_api.model.Job;
@@ -56,6 +57,16 @@ public class JobController {
 			ResponseEntity.badRequest();
 			return ResponseEntity.badRequest().body(jobPublishResponse);
 		}
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, path = "/new")
+	public ResponseEntity<List<Job>> getPublishedJobForSeeker(
+			@RequestParam(required = false, name = "jobPeriod") Integer jobPeriod,
+			@RequestParam(required = false, name = "jobCategory") Integer jobCategory,
+			@RequestParam(required = false, name = "jobFeeInterval") Integer jobFeeInterval,
+			@RequestParam(required = false, name = "isWorkFromHome") String isWorkFromHome) {
+		List<Job> joobsForSeeker =  jobService.getNewJobForSeeker(jobPeriod, jobCategory, jobFeeInterval, isWorkFromHome);
+		return ResponseEntity.ok(joobsForSeeker);
 	}
 
 }

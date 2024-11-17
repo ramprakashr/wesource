@@ -65,8 +65,8 @@ public class JobController {
 			@RequestParam(required = false, name = "jobCategory") Integer jobCategory,
 			@RequestParam(required = false, name = "jobFeeInterval") Integer jobFeeInterval,
 			@RequestParam(required = false, name = "isWorkFromHome") String isWorkFromHome) {
-		List<Job> joobsForSeeker =  jobService.getNewJobForSeeker(jobPeriod, jobCategory, jobFeeInterval, isWorkFromHome);
-		return ResponseEntity.ok(joobsForSeeker);
+		List<Job> jobsForSeeker =  jobService.getNewJobForSeeker(jobPeriod, jobCategory, jobFeeInterval, isWorkFromHome);
+		return ResponseEntity.ok(jobsForSeeker);
 	}
 
 }

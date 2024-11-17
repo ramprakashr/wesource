@@ -52,7 +52,7 @@ public class JobService {
 	}
 	
 	public List<Job> getNewJobForSeeker(Integer jobPeriod, Integer jobCategory, Integer jobInterval, String isWorkFromHome) {
-		int isWFH = Optional.of(isWorkFromHome).isPresent() && isWorkFromHome.equalsIgnoreCase("Y") ? 1 : 0;
+		int isWFH = isWorkFromHome != null && isWorkFromHome.equalsIgnoreCase("Y") ? 1 : 0;
 		return jobRepository.fetchJobForSeeker(JobType.NEW.getValue(), jobPeriod, jobCategory, jobInterval, isWFH);
 	}
 	
